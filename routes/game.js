@@ -46,7 +46,7 @@ function gameRoutes(app) {
       })
     } else if (isGameOver) {
       res.json({
-        looser: true,
+        loser: true,
       })
     } else {
       const nextQuestion = questions[goodAnswers]
@@ -60,6 +60,13 @@ function gameRoutes(app) {
   });
 
   app.post('/answer/:index', (req, res) => {
+
+    if (isGameOver) {
+      res.json({
+        loser: true,
+      })
+    }
+
     const { index } = req.params;
 
     const question = questions[goodAnswers];

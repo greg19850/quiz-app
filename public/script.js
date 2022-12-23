@@ -1,4 +1,7 @@
 const question = document.getElementById('question');
+const goodAnswersNumber = document.getElementById('good-answers')
+const gameBoard = document.getElementById('game-board');
+const h2 = document.querySelector('h2');
 
 
 function showNextQuestion() {
@@ -7,6 +10,19 @@ function showNextQuestion() {
   })
     .then(resp => resp.json())
     .then(data => {
+
+      if (data.winner === true) {
+        gameBoard.style.display = 'none';
+        h2.innerText = 'You Are a Winner!!!'
+        return;
+      };
+
+      if (data.loser === true) {
+        gameBoard.style.display = 'none';
+        h2.innerText = 'You Lost :('
+        return;
+      };
+
       question.innerText = data.question;
 
       data.answers.forEach((answer, index) => {
@@ -23,7 +39,10 @@ function sendAnswer(ansIndex) {
     method: 'POST',
   })
     .then(resp => resp.json())
-    .then(data => console.log(data))
+    .then(data => {
+      goodAnswersNumber.innerText = data.goodAnswers;
+      showNextQuestion()
+    })
 };
 
 const buttons = document.querySelectorAll('button');
