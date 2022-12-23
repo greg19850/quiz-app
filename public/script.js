@@ -16,4 +16,23 @@ function showNextQuestion() {
     })
 }
 
-showNextQuestion()
+showNextQuestion();
+
+function sendAnswer(ansIndex) {
+  fetch(`./answer/${ansIndex}`, {
+    method: 'POST',
+  })
+    .then(resp => resp.json())
+    .then(data => console.log(data))
+};
+
+const buttons = document.querySelectorAll('button');
+
+for (const button of buttons) {
+
+  button.addEventListener('click', (event) => {
+    const answerIndex = event.target.dataset.key;
+
+    sendAnswer(answerIndex)
+  })
+}
